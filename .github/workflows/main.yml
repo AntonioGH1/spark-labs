@@ -46,6 +46,9 @@ jobs:
 
     - run: spark-submit --version
 
+    - name: Verificar contenido de results/
+      run: ls -la results
+
     - name: GIT commit and push docs
       env: 
         CI_COMMIT_MESSAGE: save spark results
@@ -53,6 +56,8 @@ jobs:
       run: |
         git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
         git config --global user.email "zs21004480@estudiantes.uv.mx"
-        git add results
+        # Forzar inclusión de archivos en results/, incluso si están en .gitignore git add results
+        git add -f results/*
+        
         git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
         git push
