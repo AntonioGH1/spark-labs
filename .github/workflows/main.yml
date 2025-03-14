@@ -46,6 +46,13 @@ jobs:
 
     - run: spark-submit --version
 
+    - name: Crear directorio results si no existe
+      run: |
+        if [ ! -d "results" ]; then
+          mkdir results
+          echo "Archivo de resultados vacío" > results/README.md  # Solo como ejemplo
+        fi
+
     - name: Verificar contenido de results/
       run: ls -la results
 
