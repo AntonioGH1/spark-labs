@@ -46,13 +46,6 @@ jobs:
 
     - run: spark-submit --version
 
-    - name: Crear directorio results si no existe
-      run: |
-        if [ ! -d "results" ]; then
-          mkdir results
-          echo "Archivo de resultados vacío" > results/README.md  # Solo como ejemplo
-        fi
-
     - name: Verificar contenido de results/
       run: ls -la results
 
@@ -63,8 +56,13 @@ jobs:
       run: |
         git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
         git config --global user.email "zs21004480@estudiantes.uv.mx"
-        # Forzar inclusión de archivos en results/, incluso si están en .gitignore git add results
-        git add -f results/*
+        # Forzar inclusión de archivos en results/, incluso si están en .gitignore
+        git add -f results/* 
         
-        git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
-        git push
+        # Verificar si hay cambios antes de hacer commit
+        if git diff --cached --quiet; then
+          echo "No hay cambios para hacer commit"
+        else
+          git commit -m "${{ env.CI_COMMIT_MESSAGE }}"
+          git push
+        fi
