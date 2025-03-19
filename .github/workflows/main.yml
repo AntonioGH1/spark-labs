@@ -46,6 +46,14 @@ jobs:
 
     - run: spark-submit --version
 
+    - name: Mas updates 1
+    - run: spark-summit --version
+    - run: wget -O dataset.csv ${{github.event.client_payload.dataseturl}}
+    - run: wget -O app.py ${{github.event.client_payload.codeurl}}
+    - run: ls -la
+    - run: spark-summit --main local app.py dataset.csv
+    - run: ls -la
+
 
     - name: Descargar dataset
       run: wget -O dataset.csv https://raw.githubusercontent.com/adsoftsito/bigdata/refs/heads/main/datasets/people.csv   
