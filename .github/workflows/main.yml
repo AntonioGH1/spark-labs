@@ -9,6 +9,7 @@ on:
   # Allows you to run this workflow manually from the Actions tab
   repository_dispatch:
     types: [spark]
+
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
@@ -21,56 +22,67 @@ jobs:
       # added or changed files to the repository.
       contents: write
 
-
-    
     steps:
-    - uses: actions/checkout@v4
-    - run: ls -la
-    
-  
+    # Checkout the repository
     - uses: actions/checkout@v4
 
+    # List files in the workspace
+    - run: ls -la
+
+    # Set up Python
     - uses: actions/setup-python@v5
       with:
         python-version: '3.10'
 
+    # Set up Java
     - uses: actions/setup-java@v4
       with:
         java-version: '21'
         distribution: temurin
 
+    # Set up Spark
     - uses: vemonet/setup-spark@v1
       with:
         spark-version: '3.5.3'
         hadoop-version: '3'
 
+    # Run Spark version check
     - run: spark-submit --version
 
-    - name: Mas updates 1
-    - run: spark-summit --version
+    # Download dataset and code
     - run: wget -O dataset.csv ${{github.event.client_payload.dataseturl}}
     - run: wget -O app.py ${{github.event.client_payload.codeurl}}
-    - run: ls -la
-    - run: spark-summit --main local app.py dataset.csv
-    - run: ls -la
 
-
-    - name: Descargar dataset
-      run: wget -O dataset.csv https://raw.githubusercontent.com/adsoftsito/bigdata/refs/heads/main/datasets/people.csv   
-    
+    # List files again
     - run: ls -la
 
-    - name: Ejecutar Spark
-      run: spark-submit --master local people.py 
-    
+    # Execute the Spark job
+    - run: spark-submit --master local app.py dataset.csv
 
+    # List files in the results directory
     - name: Verificar contenido de results/
       run: ls -la results
 
+    # Descargar un dataset
+    - name: Descargar dataset
+      run: wget -O dataset.csv https://raw.githubusercontent.com/adsoftsito/bigdata/refs/heads/main/datasets/people.csv
+
+    # List files again
+    - run: ls -la
+
+    # Ejecutar Spark con el nuevo dataset
+    - name: Ejecutar Spark
+      run: spark-submit --master local people.py
+
+    # Verificar contenido de results
+    - name: Verificar contenido de results/
+      run: ls -la results
+
+    # Commit y push de resultados
     - name: GIT commit and push docs
-      env: 
+      env:
         CI_COMMIT_MESSAGE: save spark results
-        CI_COMMIT_AUTHOR: AntonioGH1 
+        CI_COMMIT_AUTHOR: AntonioGH1
       run: |
         git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
         git config --global user.email "zs21004480@estudiantes.uv.mx"
