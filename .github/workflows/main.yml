@@ -46,6 +46,16 @@ jobs:
 
     - run: spark-submit --version
 
+
+    - name: Descargar dataset
+      run: wget -O dataset.csv https://raw.githubusercontent.com/adsoftsito/bigdata/refs/heads/main/datasets/people.csv   
+    
+    - run: ls -la
+
+    - name: Ejecutar Spark
+      run: spark-submit --master local people.py 
+    
+
     - name: Verificar contenido de results/
       run: ls -la results
 
