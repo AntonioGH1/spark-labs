@@ -53,6 +53,9 @@ jobs:
     - run: ls -la
     - run: spark-submit --master local app.py games_data.csv
     - run: ls -la
+
+    - name: Execute Spark job
+      run: spark-submit --master local steam_games.py games_data.csv
     #
 
     ## Download dataset and code
