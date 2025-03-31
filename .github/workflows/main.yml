@@ -48,7 +48,7 @@ jobs:
 
     # Run Spark version check
     - run: spark-submit --version
-    - run: wget -O games_data.csv https://raw.githubusercontent.com/AntonioGH1/spark-labs/raw/refs/heads/main/games_data.csv
+    - run: wget -O games_data.csv https://raw.githubusercontent.com/AntonioGH1/kafka/refs/heads/main/games_data.csv
     - run: wget -O app.py https://raw.githubusercontent.com/AntonioGH1/spark-labs/refs/heads/main/steam_games.py
     - run: ls -la
     - run: spark-submit --master local app.py games_data.csv
