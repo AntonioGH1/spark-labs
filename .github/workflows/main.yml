@@ -48,41 +48,48 @@ jobs:
 
     # Run Spark version check
     - run: spark-submit --version
-
-    # Download dataset and code
     - run: wget -O dataset.csv ${{github.event.client_payload.dataseturl}}
     - run: wget -O app.py ${{github.event.client_payload.codeurl}}
-
-    # List files again
     - run: ls -la
-
-    # Execute the Spark job
     - run: spark-submit --master local app.py dataset.csv
-
-    # List files in the results directory
-    - name: Verificar contenido de results/
-      run: ls -la results
-
-    # Descargar un dataset
-    - name: Descargar dataset
-      run: wget -O dataset.csv https://raw.githubusercontent.com/adsoftsito/bigdata/refs/heads/main/datasets/people.csv
-
-    - name: Descargar dataset reto
-      run: wget -O dataset.csv https://raw.githubusercontent.com/adsoftsito/bigdata/refs/heads/main/datasets/5000_points.txt
-
-    # List files again
     - run: ls -la
+    #
 
-    # Ejecutar Spark con el nuevo dataset
-    - name: Ejecutar Spark
-      run: spark-submit --master local people.py
-    - name: Ejecutar reto
-      run: spark-submit --master local points.py
+    ## Download dataset and code
+    #- run: wget -O dataset.csv ${{github.event.client_payload.dataseturl}}
+    #- run: wget -O app.py ${{github.event.client_payload.codeurl}}
 
-    # Verificar contenido de results
-    - name: Verificar contenido de results/
-      run: ls -la results
+    ## List files again
+    #- run: ls -la
 
+    ## Execute the Spark job
+    #- run: spark-submit --master local app.py dataset.csv
+
+    ## List files in the results directory
+    #- name: Verificar contenido de results/
+      #run: ls -la results
+
+    ## Descargar un dataset
+    #- name: Descargar dataset
+     # run: wget -O dataset.csv https://raw.githubusercontent.com/adsoftsito/bigdata/refs/heads/main/datasets/people.csv
+
+ #   - name: Descargar dataset reto
+ #     run: wget -O dataset.csv https://raw.githubusercontent.com/adsoftsito/bigdata/refs/heads/main/datasets/5000_points.txt
+
+ #   # List files again
+ #   - run: ls -la
+
+ #   # Ejecutar Spark con el nuevo dataset
+  #  - name: Ejecutar Spark
+  #    run: spark-submit --master local people.py
+  #  - name: Ejecutar reto
+   #   run: spark-submit --master local points.py
+
+  #  # Verificar contenido de results
+  #  - name: Verificar contenido de results/
+  #    run: ls -la results
+
+#
     # Commit y push de resultados
     - name: GIT commit and push docs
       env:
@@ -93,6 +100,7 @@ jobs:
         git config --global user.email "zs21004480@estudiantes.uv.mx"
         # Forzar inclusión de archivos en results/, incluso si están en .gitignore
         git add -f results/* 
+        git add results/video_game_sales
         
         # Verificar si hay cambios antes de hacer commit
         if git diff --cached --quiet; then
