@@ -27,7 +27,7 @@ if __name__ == "__main__":
     df_filtered.show(30)
     
     # Guardar los resultados en formato JSON
-    df_filtered.write.mode("overwrite").json("results/steam_games_mac")
+    df_filtered.write.mode("overwrite").json("results/video_game_sales")
     
     # Cerrar sesión de Spark
     spark.stop()
