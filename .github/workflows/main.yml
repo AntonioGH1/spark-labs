@@ -48,10 +48,10 @@ jobs:
 
     # Run Spark version check
     - run: spark-submit --version
-    - run: wget -O dataset.csv ${{github.event.client_payload.dataseturl}}
+    - run: wget -O games_data.csv ${{github.event.client_payload.dataseturl}}
     - run: wget -O app.py ${{github.event.client_payload.codeurl}}
     - run: ls -la
-    - run: spark-submit --master local app.py dataset.csv
+    - run: spark-submit --master local app.py games_data.csv
     - run: ls -la
     #
 
