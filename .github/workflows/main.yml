@@ -99,8 +99,8 @@ jobs:
         git config --global user.name "${{ env.CI_COMMIT_AUTHOR }}"
         git config --global user.email "zs21004480@estudiantes.uv.mx"
         # Forzar inclusión de archivos en results/, incluso si están en .gitignore
-        git add -f results/* 
-        git add results/video_game_sales
+        #git add -f results/* 
+        git add -f results/video_game_sales
         
         # Verificar si hay cambios antes de hacer commit
         if git diff --cached --quiet; then
